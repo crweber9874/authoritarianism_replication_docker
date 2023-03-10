@@ -1,16 +1,12 @@
-FROM rocker/tidyverse:latest
+FROM rocker/r-ver:3.4.4
 
 # create an R user 
 ENV USER rstudio 
 ## Copy your working files over 
-COPY . /home/$USER/github 
+# COPY . /home/$USER/github 
 
+COPY  /Chapter_Analysis/Chapter_7_Analysis /home/$USER/github 
 
-RUN R -e "install.packages('lavaan', dependencies=TRUE)"
-RUN R -e "install.packages('foreign', dependencies=TRUE)"
-RUN R -e "install.packages('psych', dependencies=TRUE)"
-RUN R -e "install.packages('ggjoy', dependencies=TRUE)"
-RUN R -e "install.packages('readr', dependencies=TRUE)"
-RUN R -e "install.packages('ggridges', dependencies=TRUE)"
-
-##Yes, I know -- but once you start cutting and pasting -- sunk costs make it hard to stop!
+RUN R -e "options(repos = \
+  list(CRAN = 'http://mran.revolutionanalytics.com/snapshot/${WHEN}')); \
+  install.packages('tidystringdist', 'brms')"
